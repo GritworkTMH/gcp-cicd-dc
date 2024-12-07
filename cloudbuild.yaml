@@ -1,0 +1,10 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'us-central1-docker.pkg.dev/[PROJECT_ID]/firstname-studentid/[IMAGE_NAME]:$COMMIT_SHA', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'us-central1-docker.pkg.dev/[PROJECT_ID]/firstname-studentid/[IMAGE_NAME]:$COMMIT_SHA']
+- name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+  entrypoint: 'gcloud'
+  args: ['run', 'deploy', 'firstname-studentid-service', '--image', 'us-central1-docker.pkg.dev/[PROJECT_ID]/firstname-studentid/[IMAGE_NAME]:$COMMIT_SHA', '--region', 'us-central1']
+options:
+  logging: REGIONAL_USER_OWNED_BUCKET
