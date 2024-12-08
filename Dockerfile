@@ -1,20 +1,11 @@
-# Set the base image
-FROM node:18
+# Use the official NGINX base image
+FROM nginx:stable-alpine
 
-# Set the working directory
-WORKDIR /usr/src/app
+# Copy website files to the default NGINX public directory
+COPY index.html /usr/share/nginx/html/index.html
 
-# Copy package files
-COPY package*.json ./
-
-# Install dependencies
-RUN npm install
-
-# Copy application code
-COPY . .
-
-# Expose the port Cloud Run expects
+# Expose the port Cloud Run uses
 EXPOSE 8080
 
-# Define the start command
-CMD ["npm", "start"]
+# Start NGINX
+CMD ["nginx", "-g", "daemon off;"]
