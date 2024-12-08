@@ -1,23 +1,20 @@
-# Use official Node.js image as base
-FROM node:16-alpine
+# Set the base image
+FROM node:18
 
-# Set the working directory in the container
-WORKDIR /app
+# Set the working directory
+WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json for npm install
+# Copy package files
 COPY package*.json ./
 
 # Install dependencies
 RUN npm install
 
-# Copy the rest of the application files
+# Copy application code
 COPY . .
 
-# Set the environment variable for Cloud Run to listen on port 8080
-ENV PORT 8080
-
-# Expose the port that the app will listen on
+# Expose the port Cloud Run expects
 EXPOSE 8080
 
-# Command to start the app
+# Define the start command
 CMD ["npm", "start"]
